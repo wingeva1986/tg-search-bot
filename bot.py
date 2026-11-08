@@ -59,6 +59,11 @@ class BotConfig:
             str(config["redis_password"]) if config["redis_password"] else ""
         )
         self.enable_nsfw = str(config["enable_nsfw"]) if config["enable_nsfw"] else "0"
+        # Jvav 3.x options: optional JavBus cookie and HTTP response cache.
+        self.javbus_auth = str(config.get("javbus_auth") or "")
+        self.use_jvav_cache = str(config.get("use_jvav_cache", "1")).strip().lower() not in (
+            "0", "false", "no", "off", ""
+        )
         # set
         self.proxy_addr_dmm = ""
         self.proxy_json = {"http": "", "https": ""}
@@ -108,15 +113,37 @@ BOT_CACHE_DB = BotCacheDb(
     password=BOT_CFG.redis_password,
     use_cache=BOT_CFG.use_cache,
 )
-BASE_UTIL = jvav.BaseUtil(BOT_CFG.proxy_addr)
-DMM_UTIL = jvav.DmmUtil(BOT_CFG.proxy_addr_dmm)
-JAVBUS_UTIL = jvav.JavBusUtil(BOT_CFG.proxy_addr)
-JAVDB_UTIL = jvav.JavDbUtil(BOT_CFG.proxy_addr)
-JAVLIB_UTIL = jvav.JavLibUtil(BOT_CFG.proxy_addr)
-SUKEBEI_UTIL = jvav.SukebeiUtil(BOT_CFG.proxy_addr)
-TRANS_UTIL = jvav.TransUtil(BOT_CFG.proxy_addr)
-WIKI_UTIL = jvav.WikiUtil(BOT_CFG.proxy_addr)
-AVGLE_UTIL = jvav.AvgleUtil(BOT_CFG.proxy_addr)
+BASE_UTIL = jvav.BaseUtil(
+    proxy_addr=BOT_CFG.proxy_addr, use_cache=BOT_CFG.use_jvav_cache
+)
+DMM_UTIL = jvav.DmmUtil(
+    proxy_addr=BOT_CFG.proxy_addr_dmm, use_cache=BOT_CFG.use_jvav_cache
+)
+# Jvav 3.0 adds bus_auth as the first positional parameter. Always use
+# keywords here so the proxy is not accidentally interpreted as a cookie.
+JAVBUS_UTIL = jvav.JavBusUtil(
+    bus_auth=BOT_CFG.javbus_auth,
+    proxy_addr=BOT_CFG.proxy_addr,
+    use_cache=BOT_CFG.use_jvav_cache,
+)
+JAVDB_UTIL = jvav.JavDbUtil(
+    proxy_addr=BOT_CFG.proxy_addr, use_cache=BOT_CFG.use_jvav_cache
+)
+JAVLIB_UTIL = jvav.JavLibUtil(
+    proxy_addr=BOT_CFG.proxy_addr, use_cache=BOT_CFG.use_jvav_cache
+)
+SUKEBEI_UTIL = jvav.SukebeiUtil(
+    proxy_addr=BOT_CFG.proxy_addr, use_cache=BOT_CFG.use_jvav_cache
+)
+TRANS_UTIL = jvav.TransUtil(
+    proxy_addr=BOT_CFG.proxy_addr, use_cache=BOT_CFG.use_jvav_cache
+)
+WIKI_UTIL = jvav.WikiUtil(
+    proxy_addr=BOT_CFG.proxy_addr, use_cache=BOT_CFG.use_jvav_cache
+)
+AVGLE_UTIL = jvav.AvgleUtil(
+    proxy_addr=BOT_CFG.proxy_addr, use_cache=BOT_CFG.use_jvav_cache
+)
 EXECUTOR = concurrent.futures.ThreadPoolExecutor()
 ID_PAT = re.compile(r"[a-z0-9]+[-_](?:ppv-)?[a-z0-9]+")
 BOT_CMDS = {
