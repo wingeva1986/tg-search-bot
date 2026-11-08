@@ -1,6 +1,7 @@
 import unittest
 
 import jvav
+from jvav_compat import JavBusUtil as CompatibleJavBusUtil
 
 
 class Jvav30CompatibilityTest(unittest.TestCase):
@@ -25,7 +26,7 @@ class Jvav30CompatibilityTest(unittest.TestCase):
                 self.assertFalse(utility.use_cache)
 
     def test_javbus_new_bus_auth_parameter_does_not_consume_proxy(self):
-        utility = jvav.JavBusUtil(
+        utility = CompatibleJavBusUtil(
             bus_auth="test-cookie",
             proxy_addr="http://127.0.0.1:7890",
             use_cache=False,
@@ -33,6 +34,7 @@ class Jvav30CompatibilityTest(unittest.TestCase):
         self.assertEqual(utility.bus_auth, "test-cookie")
         self.assertEqual(utility.proxy_addr, "http://127.0.0.1:7890")
         self.assertFalse(utility.use_cache)
+        self.assertEqual(utility.get_headers().get("Cookie"), "bus_auth=test-cookie;")
 
     def test_new_jvav_30_exports_are_available(self):
         self.assertTrue(hasattr(jvav, "RankUtil"))
