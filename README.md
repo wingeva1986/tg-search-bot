@@ -2,7 +2,7 @@
 
 A Telegram bot that can be used to search for various video magnet links. It supports operations such as collection, exporting records, and automatically saving magnet links. It can be manually configured to block NSFW content and proxy Internet access.
 
-The bot is built based on Python3, supports one-click deployment with Docker, and implements caching functions through Redis.
+The bot is built based on Python3, supports one-click deployment with Docker, and implements result caching through Redis. It uses Jvav 3.0.0 for the latest scraper interfaces and optional HTTP response caching.
 
 ## Functions
 
@@ -50,6 +50,10 @@ redis_host:
 redis_port:
 # optional, your redis password
 redis_password:
+# optional, JavBus authentication cookie value (Jvav 3.x bus_auth)
+javbus_auth:
+# optional, enable Jvav HTTP response cache, 1 yes | 0 no (default: 1)
+use_jvav_cache: 1
 # required, enable nsfw or not, 1 yes | 0 no
 enable_nsfw: 0
 ```
