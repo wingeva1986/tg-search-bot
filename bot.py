@@ -61,7 +61,7 @@ class BotConfig:
         self.enable_nsfw = str(config["enable_nsfw"]) if config["enable_nsfw"] else "0"
         # Jvav 3.x options: optional JavBus cookie and HTTP response cache.
         self.javbus_auth = str(config.get("javbus_auth") or "")
-        self.use_jvav_cache = str(config.get("use_jvav_cache", "1")).strip().lower() not in (
+        self.use_jvav_cache = str(config.get("use_jvav_cache", "0")).strip().lower() not in (
             "0", "false", "no", "off", ""
         )
         # set
