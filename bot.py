@@ -5,6 +5,7 @@ import re
 import string
 import random
 import jvav
+from jvav_compat import JavBusUtil as CompatibleJavBusUtil
 import yaml
 import asyncio
 import threading
@@ -121,7 +122,7 @@ DMM_UTIL = jvav.DmmUtil(
 )
 # Jvav 3.0 adds bus_auth as the first positional parameter. Always use
 # keywords here so the proxy is not accidentally interpreted as a cookie.
-JAVBUS_UTIL = jvav.JavBusUtil(
+JAVBUS_UTIL = CompatibleJavBusUtil(
     bus_auth=BOT_CFG.javbus_auth,
     proxy_addr=BOT_CFG.proxy_addr,
     use_cache=BOT_CFG.use_jvav_cache,
