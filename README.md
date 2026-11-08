@@ -52,8 +52,9 @@ redis_port:
 redis_password:
 # optional, JavBus authentication cookie value (Jvav 3.x bus_auth)
 javbus_auth:
-# optional, enable Jvav HTTP response cache, 1 yes | 0 no (default: 1)
-use_jvav_cache: 1
+# optional, enable Jvav HTTP response cache, 1 yes | 0 no (default: 0)
+# Redis already caches bot results; keep this off to preserve cache-clear behavior.
+use_jvav_cache: 0
 # required, enable nsfw or not, 1 yes | 0 no
 enable_nsfw: 0
 ```
